@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+
+.layout{
+  display: flex;
+  background-color: color rgb(249, 250, 251);
+  font-family: 'Roboto', sans-serif;
+}
+
+.sidebar{
+  width: 250px;
+  height: 100vh;
+  border-right: 2px dotted rgb(228, 228, 228);
+  padding: 20px;
+  position: fixed;
+  z-index: 2;
+}
+
+.side-logo{
+  width: 75px;
+  height: auto;
+}
+
+.side-profile{
+  background-color: rgba(145, 158, 171, 0.12);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  padding: 13px;
+}
+
+.side-profile > img{
+  border-radius: 50%;
+  width: 40px;
+  margin-right: 10px;
+}
+
+.side-profile > span{
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.side-dashboard-tags{
+
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  color: rgb(97, 97, 97);
+}
+
+.side-dash-tag-ele{
+  display: flex;
+  align-items: center;
+  padding: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.side-dash-tag-ele:hover{
+  background-color: rgba(145, 158, 171, 0.12);
+}
+
+.side-ele-icon{
+  /* margin-left: 10px; */
+  margin-right: 10px;
+}
+
+.side-dash-tag-ele > span{
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.side-dash-tag-ele {
+
+}
+
+.appbar{
+  height: 65px;
+  /* background: rgba(0,0,0,0.8); */
+  backdrop-filter: saturate(180%) blur(10px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  /* padding: 20px; */
+  justify-content: flex-end;
+  position: fixed;
+}
+
+
+.appbar > span{
+  font-weight: 500;
+  margin-right: 40px;
+  color: rgb(97, 97, 97);
+
+  margin-left: 8px;
+}
