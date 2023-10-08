@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Sidebar } from "./common/Sidebar";
 import { AppBar } from "./common/AppBar";
 import { Dashboard } from "./page/Dashboard";
+import { Process } from "./page/Process";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,7 +19,10 @@ root.render(
 					<AppBar></AppBar>
 					<div style={{ marginLeft: "300px", marginTop: "65px" }}>
 						<Routes>
-							<Route path="/" element={<Dashboard />} />
+							<Route path="/" element={<Process />} />
+						</Routes>
+						<Routes>
+							<Route path="/detailed" element={<Dashboard />} />
 						</Routes>
 					</div>
 				</div>

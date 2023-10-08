@@ -1,8 +1,11 @@
 import React from "react";
 import { MdDashboard } from "react-icons/md";
 import { BsFillPersonLinesFill, BsSpeedometer } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 export const Sidebar = () => {
+	const navigate = useNavigate();
+
 	return (
 		<div className="sidebar">
 			<img
@@ -20,7 +23,10 @@ export const Sidebar = () => {
 			<div className="side-dashboard-tags">
 				<div
 					className="side-dash-tag-ele"
-					style={{ backgroundColor: " rgba(145, 158, 171, 0.12)" }}
+					// style={{ backgroundColor: " rgba(145, 158, 171, 0.12)" }}
+					onClick={() => {
+						navigate("/");
+					}}
 				>
 					<MdDashboard size={20} className="side-ele-icon" color="black" />
 					<span
@@ -31,14 +37,19 @@ export const Sidebar = () => {
 						Dashboard
 					</span>
 				</div>
-				<div className="side-dash-tag-ele">
+				<div
+					className="side-dash-tag-ele"
+					onClick={() => {
+						navigate("/detailed");
+					}}
+				>
 					<BsFillPersonLinesFill size={20} className="side-ele-icon" />
-					<span>Employees</span>
+					<span>Detailed View</span>
 				</div>
-				<div className="side-dash-tag-ele">
+				{/* <div className="side-dash-tag-ele">
 					<BsSpeedometer size={20} className="side-ele-icon" />
 					<span>Performance</span>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);
