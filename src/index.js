@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Sidebar } from "./common/Sidebar";
 import { AppBar } from "./common/AppBar";
 import { Dashboard } from "./page/Dashboard";
+import { Report } from "./page/Report";
 import { Process } from "./page/Process";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -23,6 +24,12 @@ root.render(
 						</Routes>
 						<Routes>
 							<Route path="/detailed" element={<Dashboard />} />
+						</Routes>
+						<Routes>
+							<Route path="/config" element={<Dashboard />} />
+						</Routes>
+						<Routes>
+							<Route path="/report" element={<Report />} />
 						</Routes>
 					</div>
 				</div>
