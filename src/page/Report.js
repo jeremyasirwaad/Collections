@@ -8,12 +8,15 @@ export const Report = () => {
 	const [startdate, setStartdate] = useState("");
 	const [enddate, setEnddate] = useState("");
 	const [manager, setManager] = useState("");
-	const [assmanager, setAssmanager] = useState("");
+	const [assmanager, setAssmanager] = useState(null);
 	const [callername, setCallername] = useState("");
 	const [datavalue, setDatavalue] = useState(data);
 	const [callerlist, setCallerlist] = useState([]);
 	const [managerlist, setManagerlist] = useState([]);
 	const [assmanagerlist, setAssmanagerlist] = useState([]);
+	const [assmanbarlist, setAssmanbarlist] = useState([]);
+	const [assmanbarcoll, setAssmanbarcoll] = useState([]);
+	const [defaultassmanager, setDefaultassmanager] = useState("Jeremy");
 	const [form] = Form.useForm();
 
 	const columns = [
@@ -53,6 +56,19 @@ export const Report = () => {
 			key: "manager"
 		}
 	];
+
+	const [selectedValue, setSelectedValue] = useState(null);
+
+	// Step 3: Bind the Select component to the selected value state variable
+	const handleSelectChange = (value) => {
+		setSelectedValue(value);
+	};
+
+	// Step 4: Create a button click handler to change the selected value
+	const handleButtonClick = (value) => {
+		// Update the selected value to a new value when the button is clicked
+		setSelectedValue(value);
+	};
 
 	useEffect(() => {
 		let collectedCount = 0;
@@ -105,28 +121,59 @@ export const Report = () => {
 		setManagerlist(Array.from(managerList1));
 		setAssmanagerlist(Array.from(assmanagerList1));
 		setCallerlist(Array.from(callernameList1));
+
+		const dateSums = {};
+
+		data.forEach((entry) => {
+			const date = entry["ASST.MANAGER"];
+			const ptpAmount = entry["PTP AMOUNT"];
+
+			if (!dateSums[date]) {
+				dateSums[date] = ptpAmount;
+			} else {
+				dateSums[date] += ptpAmount;
+			}
+		});
+
+		const data_bar_chart = Object.entries(dateSums).map(([date, sum]) => ({
+			date,
+			total_amount: sum
+		}));
+
+		setAssmanbarcoll(data_bar_chart.map((item) => item.total_amount));
+		setAssmanbarlist(data_bar_chart.map((item) => item.date));
 	}, []);
 
 	const filter = () => {
 		var mock = data;
-		console.log(data);
+
+		if (startdate != "" && enddate != "") {
+			const startDate = new Date(startdate);
+			const endDate = new Date(enddate);
+			mock = data.filter((obj) => {
+				const objDateStr = obj["DATE"] + " 2023";
+				const objDate = new Date(objDateStr);
+				return startDate <= objDate && objDate <= endDate;
+			});
+		}
+
 		if (manager != "") {
 			mock = mock.filter((val) => {
-				return val.MANAGER === manager;
+				return val["MANAGER"] == manager;
 			});
 		}
 		console.log(mock);
 
-		if (assmanager != "") {
+		if (assmanager != "" && assmanager != null) {
 			mock = mock.filter((val) => {
-				return val["ASST.MANAGER"] === assmanager;
+				return val["ASST.MANAGER"] == assmanager;
 			});
 		}
 		console.log(mock);
 
 		if (callername != "") {
 			mock = mock.filter((val) => {
-				return val["CALLER NAME"] === callername;
+				return val["CALLER NAME"] == callername;
 			});
 		}
 		console.log(mock);
@@ -153,7 +200,14 @@ export const Report = () => {
 								options={{
 									chart: {
 										type: "bar",
-										height: 350
+										height: 350,
+										events: {
+											dataPointSelection: (event, chartContext, config) => {
+												console.log(assmanbarlist[config.dataPointIndex]);
+												const value = assmanbarlist[config.dataPointIndex];
+												setAssmanager(value);
+											}
+										}
 									},
 									plotOptions: {
 										bar: {
@@ -171,7 +225,7 @@ export const Report = () => {
 										colors: ["transparent"]
 									},
 									xaxis: {
-										categories: ["Jeremy"]
+										categories: assmanbarlist
 									},
 									yaxis: {
 										title: {
@@ -192,7 +246,7 @@ export const Report = () => {
 								series={[
 									{
 										name: "Collected",
-										data: [20]
+										data: assmanbarcoll
 									}
 								]}
 								type="bar"
@@ -286,10 +340,14 @@ export const Report = () => {
 							</Row>
 							<Row gutter={[16, 16]}>
 								<Col span={12}>
-									<Form.Item label="As.Manager" name={"assmanager"}>
+									{/* <Form.Item label="As.Manager" name={"assmanager"}> */}
+									<div>
+										<span>As.Manager : </span>
 										<Select
+											style={{ width: 200 }}
+											value={assmanager}
 											onChange={(e) => {
-												// setAssmanager(e);
+												setAssmanager(e);
 											}}
 											placeholder="Choose Ass.Manager"
 										>
@@ -300,7 +358,8 @@ export const Report = () => {
 													);
 												})}
 										</Select>
-									</Form.Item>
+									</div>
+									{/* </Form.Item> */}
 								</Col>
 								<Col span={12}>
 									<Form.Item label="Caller Name" name={"caller"}>
@@ -326,6 +385,7 @@ export const Report = () => {
 										htmlType="reset"
 										onClick={() => {
 											clearfilter();
+											setAssmanager(null);
 											form.resetFields();
 										}}
 									>
@@ -360,6 +420,20 @@ export const Report = () => {
 					</div>
 				</div>
 			</div>
+			{/* <div>
+				<Select
+					style={{ width: 200 }}
+					value={selectedValue}
+					// onChange={handleSelectChange}
+				>
+					<Select.Option value="Option 1">Option 1</Select.Option>
+					<Select.Option value="Option 2">Option 2</Select.Option>
+					<Select.Option value="Option 3">Option 3</Select.Option>
+				</Select>
+				<Button onClick={() => handleButtonClick("jeremy")}>
+					Change Selected Value
+				</Button>
+			</div> */}
 		</div>
 	);
 };
