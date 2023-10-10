@@ -2,6 +2,7 @@ import React from "react";
 import { MdDashboard } from "react-icons/md";
 import { BsFillPersonLinesFill, BsSpeedometer } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { GrNotes } from "react-icons/gr";
 
 export const Sidebar = () => {
 	const navigate = useNavigate();
@@ -36,6 +37,15 @@ export const Sidebar = () => {
 					>
 						Dashboard
 					</span>
+				</div>
+				<div
+					className="side-dash-tag-ele"
+					onClick={() => {
+						navigate("/report");
+					}}
+				>
+					<GrNotes size={20} className="side-ele-icon" />
+					<span>Reports</span>
 				</div>
 				<div
 					className="side-dash-tag-ele"
